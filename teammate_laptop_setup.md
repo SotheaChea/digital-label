@@ -77,13 +77,22 @@ Inside your **Ubuntu terminal**:
 ---
 
 ### Step 5: Mount your Windows Code Folder
-Inside your **Ubuntu terminal**, create a link to your Windows project directory (make sure the path inside the quotes matches the exact location of your project folder on your Windows D: or C: drive):
+Inside your **Ubuntu terminal**, you need to link your Windows folder. Since she might have cloned the project in a different folder on her laptop, she must change the path accordingly.
 
+#### 💡 How to map any Windows folder in Ubuntu:
+* Drive **`C:\`** is mapped to **`/mnt/c/`**
+* Drive **`D:\`** is mapped to **`/mnt/d/`**
+* Change all backslashes **`\`** to forward slashes **`/`**.
+* *Example:* If her folder is at `C:\Users\laptop\Digital-Label`, her Ubuntu path will be `"/mnt/c/Users/laptop/Digital-Label"`.
+
+Run these commands in the **Ubuntu terminal** (make sure to replace `"/mnt/d/Project/..."` with **her** custom path if it's different!):
+
+#### 1. Link the folder:
 ```bash
 sudo ln -sf "/mnt/d/Project/All backend Project/Digital-Label" /var/www/digital-label
 ```
 
-Apply safe storage permissions for Laravel:
+#### 2. Apply safe storage permissions:
 ```bash
 sudo chmod -R 777 "/mnt/d/Project/All backend Project/Digital-Label/backend/storage"
 ```
