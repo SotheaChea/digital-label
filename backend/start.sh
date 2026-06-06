@@ -42,12 +42,16 @@ MAIL_MAILER=log
 MAIL_FROM_ADDRESS="hello@digital-label.com"
 MAIL_FROM_NAME="Digital Label"
 
-IMAGEKIT_PUBLIC_KEY=${IMAGEKIT_PUBLIC_KEY}
-IMAGEKIT_PRIVATE_KEY=${IMAGEKIT_PRIVATE_KEY}
-IMAGEKIT_URL_ENDPOINT=${IMAGEKIT_URL_ENDPOINT}
+IMAGEKIT_PUBLIC_KEY=${IMAGEKIT_PUBLIC_KEY:-public_FXQE7Qf2O0Y6i9/pnH88hh5CYAQ=}
+IMAGEKIT_PRIVATE_KEY=${IMAGEKIT_PRIVATE_KEY:-private_Ii+7hweqISDbv9eWnIZlPaiVth0=}
+IMAGEKIT_URL_ENDPOINT=${IMAGEKIT_URL_ENDPOINT:-https://ik.imagekit.io/steavnews}
 EOF
 
 echo "✅ .env file generated"
+
+# Run database migrations
+echo "📦 Running database migrations..."
+php artisan migrate --force
 
 # Cache config for performance
 php artisan config:clear
