@@ -55,6 +55,17 @@ class DatabaseSeeder extends Seeder
             'position' => 'Manager'
         ]);
 
+        // 3.5 Create Staff Demo User
+        User::create([
+            'name' => 'Staff Demo',
+            'email' => 'staff.demo@store.com',
+            'password' => Hash::make('staffdemo123'),
+            'role' => 'staff',
+            'company_id' => $company->id,
+            'branch_id' => $branch->id,
+            'position' => 'Sales Associate'
+        ]);
+
         // 4. Create Category
         $category = Category::create([
             'name' => 'Beverage',
