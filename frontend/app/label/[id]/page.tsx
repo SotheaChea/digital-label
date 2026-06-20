@@ -6,6 +6,7 @@ import { db } from '@/lib/firebase';
 import { doc, onSnapshot, getDoc, collection, query, where, limit } from 'firebase/firestore';
 
 import { DigitalLabel } from '@/types/vendor';
+import { laravelApi } from '@/lib/api';
 
 import { Loader2 } from 'lucide-react';
 
@@ -240,82 +241,43 @@ export default function LabelPreviewPage() {
   useEffect(() => {
     if (!id) return;
     
-    let unsubLabel = () => {};
+    let isMounted = true;
+    let pollInterval: NodeJS.Timeout;
 
-    const handleLabelSnap = async (labelDoc: any) => {
-      const data = labelDoc.data();
-      const labelData = { id: labelDoc.id, ...data } as DigitalLabel;
-
-      if (labelData.productId) {
-        try {
-          const productSnap = await getDoc(doc(db, 'products', labelData.productId));
-          if (productSnap.exists()) {
-            const product = productSnap.data() as any;
-            labelData.productCode = product.productCode || labelData.productCode || '';
-            labelData.productSku = product.sku || labelData.productSku || '';
-            labelData.productName = product.name || labelData.productName || '';
+    const fetchLabelData = async () => {
+      try {
+        const labelData = await laravelApi.getLabelPreview(id as string);
+        if (isMounted) {
+          if (labelData) {
+            setLabel(labelData as DigitalLabel);
+          } else {
+            setLabel(null);
           }
-        } catch (e) {}
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Failed to fetch label preview:', error);
+        if (isMounted) {
+          setLabel(null);
+          setLoading(false);
+        }
       }
-      
-      if (!labelData.branchName && labelData.branchId) {
-        try {
-          const branchSnap = await getDoc(doc(db, 'branches', labelData.branchId));
-          if (branchSnap.exists()) {
-            labelData.branchName = branchSnap.data().name;
-          }
-        } catch (e) {}
-      }
-      setLabel(labelData);
-      setLoading(false);
     };
 
-    // First try subscribing to doc directly (using Firestore document ID)
-    const docRef = doc(db, 'labels', id as string);
-    const primaryUnsub = onSnapshot(docRef, (snap) => {
-      if (snap.exists()) {
-        handleLabelSnap(snap);
-      } else {
-        // Fallback 1: Query by labelId (e.g. "TAG-001")
-        primaryUnsub(); // clean up
-        const qId = query(collection(db, 'labels'), where('labelId', '==', id as string), limit(1));
-        const unsubFallbackId = onSnapshot(qId, (qSnap) => {
-          if (!qSnap.empty) {
-            handleLabelSnap(qSnap.docs[0]);
-          } else {
-            // Fallback 2: Query by labelCode or stringified ID "1", "2"
-            unsubFallbackId(); // clean up
-            const qCode = query(collection(db, 'labels'), where('labelCode', '==', id as string), limit(1));
-            const unsubFallbackCode = onSnapshot(qCode, (qCodeSnap) => {
-              if (!qCodeSnap.empty) {
-                handleLabelSnap(qCodeSnap.docs[0]);
-              } else {
-                // Fallback 3: Query by id property being string
-                unsubFallbackCode(); // clean up
-                const qInt = query(collection(db, 'labels'), where('id', '==', id as string), limit(1));
-                const unsubFallbackInt = onSnapshot(qInt, (qIntSnap) => {
-                  if (!qIntSnap.empty) {
-                    handleLabelSnap(qIntSnap.docs[0]);
-                  } else {
-                    setLabel(null);
-                    setLoading(false);
-                  }
-                });
-                unsubLabel = unsubFallbackInt;
-              }
-            });
-            unsubLabel = unsubFallbackCode;
-          }
-        });
-        unsubLabel = unsubFallbackId;
-      }
-    });
-    unsubLabel = primaryUnsub;
+    // Initial fetch
+    fetchLabelData();
 
     // Listen to global design config
     const unsubDesign = onSnapshot(doc(db, 'system_config', 'label_design'), (snap) => {
+      if (!isMounted) return;
       if (snap.exists()) {
-        setDesign(snap.data());
+        const d = snap.data();
+        setDesign(d);
+        
+        // Setup polling based on config refresh interval or default 15s
+        if (pollInterval) clearInterval(pollInterval);
+        const intervalMs = (d.refreshInterval || 15) * 1000;
+        pollInterval = setInterval(fetchLabelData, intervalMs);
       } else {
         // Fallback default design
         setDesign({
@@ -324,13 +286,18 @@ export default function LabelPreviewPage() {
           showQrCode: true,
           showStock: true,
           highContrast: true,
-          fontFamily: 'Inter'
+          fontFamily: 'Inter',
+          refreshInterval: 15
         });
+        
+        if (pollInterval) clearInterval(pollInterval);
+        pollInterval = setInterval(fetchLabelData, 15000);
       }
     });
 
     return () => {
-      unsubLabel();
+      isMounted = false;
+      if (pollInterval) clearInterval(pollInterval);
       unsubDesign();
     };
   }, [id]);

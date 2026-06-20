@@ -17,6 +17,7 @@ Route::post('/upload/profile', [UploadController::class, 'uploadProfile']);
 Route::post('/upload/product', [UploadController::class, 'uploadProduct']);
 
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/labels/preview/{id}', [DashboardController::class, 'previewLabel']);
 
 Route::get('/dashboard/staff', [DashboardController::class, 'staff'])->middleware('auth:sanctum');
 Route::get('/dashboard/vendor', [DashboardController::class, 'vendor'])->middleware('auth:sanctum');

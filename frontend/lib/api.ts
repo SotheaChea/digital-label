@@ -353,6 +353,16 @@ export const laravelApi = {
     return await response.json();
   },
 
+  async getLabelPreview(id: string) {
+    const response = await fetch(`${API_BASE_URL}/labels/preview/${id}`);
+    if (!response.ok) {
+      if (response.status === 404) return null;
+      throw new Error('Failed to fetch label preview');
+    }
+    return await response.json();
+  },
+
+
   async syncLabel(labelId: string, status: string, token: string) {
     const response = await fetch(`${API_BASE_URL}/labels/sync`, {
       method: 'POST',

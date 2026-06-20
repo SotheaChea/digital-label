@@ -296,6 +296,41 @@ class DashboardController extends Controller
         return response()->json(['success' => true, 'label' => $label]);
     }
 
+    public function previewLabel($id)
+    {
+        $label = \App\Models\Label::with(['product', 'branch'])
+            ->where('id', $id)
+            ->orWhere('label_id', $id)
+            ->orWhere('label_code', $id)
+            ->first();
+
+        if (!$label) {
+            return response()->json(['message' => 'Label not found'], 404);
+        }
+
+        return response()->json([
+            'id' => (string)$label->id,
+            'labelId' => $label->label_id,
+            'labelCode' => $label->label_code,
+            'status' => $label->status,
+            'battery' => $label->battery,
+            'location' => $label->location,
+            'basePrice' => $label->base_price,
+            'currentPrice' => $label->current_price,
+            'finalPrice' => $label->final_price,
+            'discountPercent' => $label->discount_percent,
+            'productId' => (string)$label->product_id,
+            'branchId' => (string)$label->branch_id,
+            'companyId' => (string)$label->company_id,
+            'productSku' => $label->product ? $label->product->sku : null,
+            'productName' => $label->product ? $label->product->name : null,
+            'productCode' => $label->product ? $label->product->product_code : null,
+            'stock' => $label->product ? $label->product->stock : 0,
+            'branchName' => $label->branch ? $label->branch->name : null,
+            'lastSync' => $label->last_sync
+        ]);
+    }
+
     public function syncLabel(Request $request)
     {
         $user = $request->user();
