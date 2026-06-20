@@ -30,7 +30,8 @@ export const laravelApi = {
     try {
       const response = await fetch(`${API_BASE_URL}/products`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+          'Accept': 'application/json' },
         body: JSON.stringify(data),
       });
       return await response.json();
@@ -170,6 +171,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ status })
@@ -192,6 +194,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ status })
@@ -205,6 +208,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ role })
@@ -218,6 +222,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(data)
@@ -234,6 +239,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(data)
@@ -335,6 +341,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ labelId, productId })
@@ -348,6 +355,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ labelId })
@@ -371,6 +379,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ labelId, status })
@@ -393,6 +402,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(payload)
@@ -406,6 +416,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(payload)
@@ -419,6 +430,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(payload)
@@ -432,6 +444,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ status })
@@ -445,6 +458,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ note })
@@ -458,6 +472,7 @@ export const laravelApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+          'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(data)
