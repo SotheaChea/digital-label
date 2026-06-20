@@ -224,8 +224,40 @@ export default function SuperAdminDashboard() {
         </div>
       )}
 
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <div className="fixed inset-0 z-[100] lg:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileNavOpen(false)}
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', bounce: 0, duration: 0.3 }}
+              className="absolute top-0 bottom-0 left-0 w-64 shadow-2xl bg-white dark:bg-[#1C2434] z-10"
+            >
+              <DashboardSidebar
+                currentUser={currentUser as any}
+                selectedTab={selectedTab}
+                setSelectedTab={(tab: any) => {
+                  setSelectedTab(tab);
+                  setMobileNavOpen(false); // Close sidebar on mobile when tab is clicked
+                }}
+                onLogout={handleLogout}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-64 flex-shrink-0">
+      <div className="hidden lg:block w-64 flex-shrink-0 relative z-10">
         <DashboardSidebar
           currentUser={currentUser as any}
           selectedTab={selectedTab}

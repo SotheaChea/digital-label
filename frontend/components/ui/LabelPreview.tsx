@@ -50,7 +50,7 @@ export const LabelPreview = ({
             <div className="h-3.5 w-3.5 bg-black flex items-center justify-center text-white">
                <Zap className="h-2 w-2 fill-current" />
             </div>
-            <span className="text-[7px] font-black uppercase tracking-tighter italic">LabelSync v2.4</span>
+            <span className="text-[7px] font-black uppercase tracking-tighter italic">Digital Label</span>
          </div>
          <div className="flex items-center gap-1.5 text-black">
             {showBattery && (
@@ -100,7 +100,7 @@ export const LabelPreview = ({
               {showQrCode && (
                  <div className="p-0.5 bg-white border-[1.5px] border-black shadow-[2px_2px_0_rgba(0,0,0,1)]">
                     <QRCodeSVG 
-                      value={`https://labelsync.pro/p/${sku}`}
+                      value={`https://digital-label.com/p/${sku}`}
                       size={40}
                       level="H"
                     />

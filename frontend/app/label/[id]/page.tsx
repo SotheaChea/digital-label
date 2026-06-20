@@ -429,7 +429,7 @@ export default function LabelPreviewPage() {
         >
           {/* Device Top Bezel */}
           <div className="px-4 pt-3 pb-2 sm:px-6 sm:pt-4 sm:pb-3 flex items-center justify-between">
-            <span className="text-[8px] sm:text-[10px] font-bold text-[#999] uppercase tracking-[0.15em]">LABELSYNC 4.2</span>
+            <span className="text-[8px] sm:text-[10px] font-bold text-[#999] uppercase tracking-[0.15em]">DIGITAL LABEL 4.2</span>
             <div className="h-2 w-2 sm:h-[9px] sm:w-[9px] rounded-full bg-[#4ADE80]" 
               style={{ boxShadow: '0 0 6px rgba(74,222,128,0.7)' }} 
             />

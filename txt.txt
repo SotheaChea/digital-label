@@ -37,3 +37,6 @@ php artisan tinker
 
 
 Type exit and press Enter to leave. Done!
+
+
+git add . && git commit -m "update code" && git push origin main && git push https://github.com/Heang0/Digital-Label.git main

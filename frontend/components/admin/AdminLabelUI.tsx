@@ -220,7 +220,7 @@ export const AdminLabelUI = () => {
                           <div className="h-6 w-6 bg-black flex items-center justify-center text-white rounded-sm">
                              <Zap className="h-3.5 w-3.5 fill-current" />
                           </div>
-                          <span className="text-[10px] font-black uppercase tracking-tighter italic">LabelSync PRO</span>
+                          <span className="text-[10px] font-black uppercase tracking-tighter italic">Digital Label</span>
                        </div>
                        <div className="flex items-center gap-3 text-black">
                           {config.showBattery && (
@@ -265,7 +265,7 @@ export const AdminLabelUI = () => {
                             {config.showQrCode && (
                               <div className="p-1 bg-white border-[2.5px] border-black rounded-sm shadow-sm">
                                  <QRCodeSVG 
-                                   value={`https://labelsync.pro/p/${config.sku}`}
+                                   value={`https://digital-label.com/p/${config.sku}`}
                                    size={64}
                                    level="H"
                                    includeMargin={false}

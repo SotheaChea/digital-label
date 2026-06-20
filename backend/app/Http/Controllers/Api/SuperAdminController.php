@@ -273,6 +273,7 @@ class SuperAdminController extends Controller
             $owner = User::find($company->owner_id);
             if ($owner) {
                 $owner->email = $request->email;
+                $owner->status = $request->status; // Keep owner status perfectly synced
                 $owner->save();
             }
         }
