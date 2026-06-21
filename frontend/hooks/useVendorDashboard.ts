@@ -231,7 +231,12 @@ export function useVendorDashboard() {
       if (data.branches && data.branches.length === 1) {
         setSelectedBranchId(data.branches[0].id.toString());
       }
-      setCategories(data.categories);
+      const mappedCategories = (data.categories || []).map((c: any) => ({
+          ...c,
+          id: c.id.toString(),
+          productCount: c.productCount || 0
+        }));
+        setCategories(mappedCategories);
       
       // Map products to frontend expectations
       const mappedProducts = data.products.map((p: any) => ({
@@ -278,7 +283,14 @@ export function useVendorDashboard() {
       }));
       setLabels(mappedLabels);
 
-      setIssues(data.issues || []);
+      const mappedIssues = (data.issues || []).map((i: any) => ({
+          ...i,
+          id: i.id.toString(),
+          labelId: i.label_id ? i.label_id.toString() : '',
+          productId: i.product_id ? i.product_id.toString() : '',
+          branchId: i.branch_id ? i.branch_id.toString() : ''
+        }));
+        setIssues(mappedIssues);
       const mappedStaff = (data.staffMembers || []).map((s: any) => ({
           ...s,
           id: s.id.toString(),
