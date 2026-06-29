@@ -65,6 +65,7 @@ export default function VendorDashboard() {
     labels,
     promotions,
     issues,
+    stockHistories,
     selectedBranchId, setSelectedBranchId,
     selectedFilterCategory, setSelectedFilterCategory,
     searchTerm, setSearchTerm,
